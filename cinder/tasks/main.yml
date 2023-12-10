@@ -1,0 +1,17 @@
+---
+- name: Install Cinder packages
+  apt:
+    name:
+      - cinder-api
+      - cinder-scheduler
+      - cinder-volume
+    state: present
+
+- name: Configure Cinder
+  template:
+    src: ~/HOA15/req/cinder.conf.j2
+    dest: /etc/cinder/cinder.conf
+
+- name: Create Cinder database
+  command: cinder-manage db sync
+  become_user: cinder
